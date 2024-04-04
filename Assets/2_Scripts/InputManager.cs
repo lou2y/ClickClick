@@ -6,14 +6,16 @@ public class InputManager : MonoBehaviour
 {
     public static InputManager Instance;
 
+    [SerializeField] private NoteGroup[] noteGroupArr;
+
     private void Awake()
     {
         Instance = this;
     }
 
     private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
+    { 
+        if(Input.GetKeyDown(KeyCode.A))
         {
             NoteManger.Instance.OnInput(KeyCode.A);
         }
@@ -21,10 +23,5 @@ public class InputManager : MonoBehaviour
         {
             NoteManger.Instance.OnInput(KeyCode.S);
         }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            NoteManger.Instance.OnInput(KeyCode.D);
-        }
-        
     }
 }
