@@ -13,7 +13,12 @@ public class Gamemanager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
         UIManger.Instance.OnscoreChange(score, maxScore);
+        NoteManager.Instance.Create();
     }
 
     public void CalculateScore(bool isApple)

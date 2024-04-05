@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,12 +11,14 @@ public class NoteGroup : MonoBehaviour
     [SerializeField] private GameObject noteSpawn = null;
     [SerializeField] private float noteGap = 6f;
 
-    [SerializeField] private SpriteRenderer btnSpriteRender;
-    [SerializeField] private Sprite normalBtnSprit;
-    [SerializeField] private Sprite selectBtnSprite;
+    [SerializeField] private SpriteRenderer btnSpriteRender = null;
+    [SerializeField] private Sprite normalBtnSprit = null;
+    [SerializeField] private Sprite selectBtnSprite = null;
+    [SerializeField] private TextMeshPro keyCodeTmp;
     [SerializeField] private Animation anim;
+   
     private KeyCode keyCode;
-    public KeyCode keycode
+    public KeyCode KeyCode
     {
         get
         {
@@ -27,11 +30,15 @@ public class NoteGroup : MonoBehaviour
 
     public void Create(KeyCode keyCode)
     {
+        this.keyCode = keyCode;
+        keyCodeTmp.text = keyCode.ToString();
+
         //노트 삭제
         for (int i = 0; i < noteMaxNum; i++)
         {
             CreateNote(true);
         }
+        InputManager.Instance.AddKeyCode(KeyCode);
     }
 
     private void CreateNote(bool isApple)
