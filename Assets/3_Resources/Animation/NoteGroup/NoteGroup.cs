@@ -1,27 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NoteGroup : MonoBehaviour
 {
     [SerializeField] private int noteMaxNum = 5;
-    [SerializeField] private GameObject notePregab = null;
-    [SerializeField] private GameObject noteSpawn = null;
+    [SerializeField] private GameObject notePrefab;
+    [SerializeField] private GameObject noteSpawn;
     [SerializeField] private float noteGap = 6f;
 
-    [SerializeField] private SpriteRenderer btnSpriteRender = null;
-    [SerializeField] private Sprite normalBtnSprit = null;
-    [SerializeField] private Sprite selectBtnSprite = null;
+    [SerializeField] private SpriteRenderer btnSpriteRender;
+    [SerializeField] private Sprite normalBtnSprite;
+    [SerializeField] private Sprite SelectBtnSprite;
     [SerializeField] private TextMeshPro keyCodeTmp;
     [SerializeField] private Animation anim;
-   
     private KeyCode keyCode;
     public KeyCode KeyCode
     {
-        get
-        {
+        get { 
             return keyCode;
         }
     }
@@ -33,20 +32,19 @@ public class NoteGroup : MonoBehaviour
         this.keyCode = keyCode;
         keyCodeTmp.text = keyCode.ToString();
 
-        //노트 삭제
         for (int i = 0; i < noteMaxNum; i++)
         {
             CreateNote(true);
         }
-        InputManager.Instance.AddKeyCode(KeyCode);
+
+        InputManager.Instance.AddKeyCode(keyCode);
     }
 
     private void CreateNote(bool isApple)
     {
-        GameObject noteGameObj = Instantiate(notePregab);
+        GameObject noteGameObj = Instantiate(notePrefab);
         noteGameObj.transform.SetParent(noteSpawn.transform);
         noteGameObj.transform.localPosition = Vector3.up * noteList.Count * noteGap;
-
         Note note = noteGameObj.GetComponent<Note>();
         note.SetSprite(isApple);
 
@@ -55,27 +53,36 @@ public class NoteGroup : MonoBehaviour
 
     public void OnInput(bool isApple)
     {
-        //삭제
+        //노트 삭제
         if (noteList.Count > 0)
-         {
-           Note delNote = noteList[0];
-           delNote.DeleteNote();
-           noteList.RemoveAt(0);
-         }
-          
-        //줄 내려오기
+        {
+            Note delNote = noteList[0];
+            delNote.CalScoreAndDeleteNote();
+            if (isApple)
+            {
+                SoundManager.Instance.Sound(0);
+            }
+            else
+            {
+                SoundManager.Instance.Sound(1);
+            }
+            noteList.RemoveAt(0);
+        }
+
+        //정렬
         for (int i = 0; i < noteList.Count; i++)
             noteList[i].transform.localPosition = Vector3.up * i * noteGap;
 
         //생성
         CreateNote(isApple);
 
+        //노트 애니메이션
         anim.Play();
-        btnSpriteRender.sprite = selectBtnSprite;
+        btnSpriteRender.sprite = SelectBtnSprite;
     }
 
     public void callAniDone()
     {
-        btnSpriteRender.sprite = normalBtnSprit;
+        btnSpriteRender.sprite = normalBtnSprite;
     }
 }

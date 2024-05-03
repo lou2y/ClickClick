@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9527dc84a509f4dadff475d2ea22f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 7411755687636410313}
+  SpriteRenderer: {fileID: 7411755687636410313}
   appleSprite: {fileID: 21300000, guid: ae515d1e08808274fb08d013bdfbd57e, type: 3}
   blueberrySprite: {fileID: 21300000, guid: 9fd56ef0de9d3d8459fa1bdef82d3bae, type: 3}
 --- !u!1 &4726963915633164724

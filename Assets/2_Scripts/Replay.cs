@@ -6,8 +6,9 @@ using UnityEngine.SceneManagement;
 public class Replay : MonoBehaviour
 {
     
-    public void ReplayGame()
+    public void OnClicked()
     {
-        SceneManager.LoadScene(0);
+        Debug.Log("onCel..............");
+        SceneManager.LoadScene("Main");
     }
-}
+}                                 
